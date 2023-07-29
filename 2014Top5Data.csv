@@ -1,0 +1,6 @@
+,Unnamed: 0,Country,Region,Year,Infant_deaths,Under_five_deaths,Adult_mortality,Alcohol_consumption,Hepatitis_B,Measles,BMI,Polio,Diphtheria,Incidents_HIV,GDP_per_capita,Population_mln,Thinness_ten_nineteen_years,Thinness_five_nine_years,Schooling,Economy_status_Developed,Economy_status_Developing,Life_expectancy
+14,1054,China,Asia,2014,9.0,11.6,84.358,5.65,99,99,23.6,99,99,0.1,7533,1371.86,3.7,3.0,7.6,0,1,75.6
+30,804,India,Asia,2014,36.9,46.2,180.388,3.0,79,60,21.7,84,85,0.07,1503,1295.6,26.8,27.4,6.1,0,1,68.3
+46,2123,Indonesia,Asia,2014,24.1,28.8,177.417,0.09,78,28,22.9,90,78,0.17,3217,255.13,1.4,1.2,7.8,0,1,70.5
+62,1090,Pakistan,Asia,2014,63.8,78.3,161.1745,0.04,72,48,23.8,69,72,0.13,1323,195.31,19.4,19.8,5.1,0,1,66.4
+78,1753,United States,North America,2014,5.9,6.9,105.6355,8.78,92,86,28.8,93,95,0.12,55675,318.39,0.8,0.6,13.3,1,0,78.8

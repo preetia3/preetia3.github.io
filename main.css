@@ -1,0 +1,153 @@
+h1 {
+  color: #66c2a5;
+}
+
+h3 {
+  color: #2b705a;
+}
+
+.back_button {
+    color: #483c82;
+    background-color: #FFFFFF;
+    border: 2px solid #a193e8;
+    border-radius: 12px;
+    display: inline-block;
+    padding: 15px 25px;
+    font-size: 16px;
+    cursor: pointer;
+    text-align: center;
+    text-decoration: none;
+  }
+  
+  .back_button:hover {
+      color: #FFFFFF;
+      background-color: #8080b3
+  }
+  
+  .back_button:active {
+    color: #FFFFFF;
+    background-color: #8080b3;
+  }
+  
+  .next_button {
+    color: #000000;
+    background-color: #FFFFFF;
+    border: 2px solid #3ba0e8;
+    border-radius: 12px;
+    display: inline-block;
+    padding: 15px 25px;
+    font-size: 16px;
+    cursor: pointer;
+    text-align: center;
+    text-decoration: none;
+  }
+  
+  .next_button:hover {background-color: #b5c7ed}
+  
+  .next_button:active {
+    background-color: #b5c7ed;
+  }
+  
+  .home_button {
+    color: #000000;
+    background-color: #FFFFFF;
+    border: 2px solid #95bf95cc;
+    border-radius: 12px;
+    display: inline-block;
+    padding: 15px 25px;
+    font-size: 16px;
+    cursor: pointer;
+    text-align: center;
+    text-decoration: none;
+  }
+  
+  .home_button:hover {
+      color: #FFFFFF;
+      background-color: #3ca43c}
+  }
+  
+  .home_button:active {
+    color: #FFFFFF;
+    background-color: #3ca43c;
+  }
+
+  .button1 {
+    color: #000000;
+    background-color: #FFFFFF;
+    border: 2px solid #7d1346cc;
+    border-radius: 12px;
+    display: inline-block;
+    padding: 15px 25px;
+    font-size: 16px;
+    cursor: pointer;
+    text-align: center;
+    text-decoration: none;
+  }
+  
+  .button1:hover {
+      background-color:#f6e8f0;
+      transition: 0.5s;
+  }
+  
+  .button2 {
+    color: #000000;
+    background-color: #FFFFFF;
+    border: 2px solid #0f3f10cc;
+    border-radius: 12px;
+    display: inline-block;
+    padding: 15px 25px;
+    font-size: 16px;
+    cursor: pointer;
+    text-align: center;
+    text-decoration: none;
+  }
+  
+  .button2:hover {
+      background-color:#d1f0d0;
+      transition: 0.5s;
+  }
+
+  div.tooltip { 
+      position: fixed;     
+      text-align: center;     
+      padding: 10px;       
+      font: 10px;    
+      background-color: white; 
+      border: solid;  
+      border-width: 1px;   
+      border-radius: 2px;     
+      pointer-events: none;     
+  }
+
+  div.head {
+    padding: 0px;
+    margin: 10px;
+    font-size: 25px;
+}
+.sub{
+  text-align: center;
+  font-size: 20px;
+}
+.center {
+text-align: center;
+}
+
+.center-div {
+display: flex;
+justify-content: center;
+}
+.grid-parent {
+  display: grid;
+  grid-template-columns: 1fr 1fr
+}
+.grid-parent2 {
+  display: grid;
+  grid-template-columns: 1fr 2fr
+}
+.grid-parent3 {
+  display: grid;
+  grid-template-columns: 3fr 1fr
+}
+
+
+

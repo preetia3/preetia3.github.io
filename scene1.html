@@ -1,0 +1,156 @@
+
+<!DOCTYPE html>
+<style>
+  html *
+{
+  color: #000;
+   font-family: 'Garamond', serif;
+   letter-spacing: 1px;
+}
+</style>
+<html lang="en">
+
+<script src="https://d3js.org/d3.v6.js"></script>
+<script src="https://rawgit.com/susielu/d3-annotation/master/d3-annotation.min.js"></script>
+<link rel="stylesheet" href="main.css">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Visualization: Scene 1</title>
+</head>
+
+<body>
+  <h1>How do different countries of the World compare in Life Expectancy and GDP per capita?</h1>
+  <p>The scatterplot below shows how Life Expectancy and GDP per capita varied across different countries in the world during the year 
+    <strong>2015</strong>. 
+    <br><br>We can see that countries with higher GDP per capita tend to have a higher life expectancy. There could be 
+    different reasons for this, such as countries with higher GDP per capita have better health care facilities, and their citizens can 
+    focus more on their health and well-being resulting in higher life expectancy. However, we also see there are countries that have a 
+    lower GDP per capita, but that have life expectancy comparable to countries with much higher GDP per capita. <br></p>
+</body>
+
+<div id="range_chart"></div>
+
+<body style="font-family:Georgia">
+  <h4 style="color:#0c4d23;font-size:12px;">*Hover over a point on the plot to see which country it corresponds to along with its 
+  associated data</h4>
+  <p><br>Continue exploring by clicking the 'Next' button!<br></p>
+
+<div>
+    <a href="index.html" class="back_button">Back</a>
+    <a href="scene2.html" class="next_button">Next</a>
+</div>
+
+</body>
+<script>
+
+var svg = d3.select("#range_chart")
+.append("svg")
+.attr("width", 1200)
+.attr("height", 650)
+.append("g")
+.attr("transform", `translate(60, 30)`);
+
+var x_scale = d3.scaleLinear()
+.domain([0, 106000])
+.range([0, 920]);
+    
+var x_axis = d3.axisBottom(x_scale);
+
+svg.append("g")
+.attr("transform", `translate(0, 560)`)
+.call(x_axis);
+  
+svg.append("text")
+.attr("class", "x label")
+.attr("transform", "translate(" + (900 / 2) + " ," + (600) + ")")
+.style("text-anchor", "middle")
+.text("GDP per capita (in USD) in 2015")
+.style("font-size", "14px");
+
+var y_scale = d3.scaleLinear()
+.domain([50, 90])
+.range([560, 0]);
+
+var y_axis = d3.axisLeft(y_scale)
+
+svg.append("g")
+.call(y_axis);
+
+svg.append("text")
+.attr("class", "y label")
+.attr("text-anchor", "end")
+.attr("y", 6)
+.attr("x", -130)
+.attr("dy", -45)
+.attr("transform", "rotate(-90)")
+.text("Life Expectancy (in years) in 2015")
+.style("font-size", "14px");
+
+d3.csv("https://raw.githubusercontent.com/preetia3/preetia3.github.io/main/Data_2015.csv").then( function(data) {
+  var tooltip = d3.select("#range_chart").append("div")
+  .attr("class", "tooltip")
+  
+  svg.append("g")
+  .selectAll("dot")
+  .data(data)
+  .enter()
+  .append("circle")
+  .attr("cx", function (d) { return x_scale(d.GDP_per_capita); } )
+  .attr("cy", function (d) { return y_scale(d.Life_expectancy); } )
+  .attr("r", 5)
+  .style("fill", "#69b3a2")
+  .style("opacity", 0.5)
+
+  .on("mouseover", function(event, d) {
+    tooltip
+    .style("opacity", 1)
+  })
+
+  .on("mousemove", function(event, d) {
+    tooltip
+      .html("<b>" + d.Country + " </b><br>Life Expectancy: " + d.Life_expectancy + " years <br>GDP: " + d.GDP_per_capita + " USD")
+      .style("left", (event.pageX)-60 + "px")
+      .style("top", (event.pageY) -140+ "px")
+  })
+
+  .on("mouseleave", function(d) {
+    tooltip
+      .transition()
+      .duration(200)
+      .style("opacity", 0)
+  })
+
+  const annotations = [
+    {
+      note: {
+        label: "Luxembourg has the Highest GDP per capita of 105,462 USD"
+      },
+      type: d3.annotationCallout,
+      x: 910,
+      y: 110,
+      dy: 30,
+      dx: -20
+    },
+
+    {
+      note: {
+        label: "Japan has the Highest Life Expectancy of 83.8 years"
+      },
+      type: d3.annotationCallout,
+      x: 300,
+      y: 80,
+      dy: -20,
+      dx: -60
+    }
+  ]
+
+  const makeAnnotations = d3.annotation()
+    .annotations(annotations)
+  svg.append("g")
+  .style("font-size", "12px")
+  .call(makeAnnotations)
+
+})
+</script>

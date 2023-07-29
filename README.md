@@ -1,0 +1,2 @@
+# 
+This repository contains the data and the code used to build a narrative visualization for a Data Visualization class. The D3 and d3-annotation libraries were used to construct the homepage and the 3 scenes for this visualization. 

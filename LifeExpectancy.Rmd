@@ -1,0 +1,27 @@
+---
+title: "Project_Data"
+output: html_document
+date: "2023-07-18"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+```{r}
+library(readr)
+life_expectancy = read.csv("Life-Expectancy-Data-Updated.csv")
+View(life_expectancy)
+str(life_expectancy)
+
+which(is.na(life_expectancy))
+sum(is.na(life_expectancy))
+
+#Select Rows with NA Values in Any Column
+missing_vals_life_expectancy = life_expectancy[!complete.cases(life_expectancy), ] 
+
+#Finding which columns have missing data
+names(which(colSums(is.na(missing_vals_life_expectancy)) > 0))
+
+```

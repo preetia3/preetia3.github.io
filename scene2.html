@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<style>
+  html *
+{
+  color: #000;
+   font-family: 'Garamond', serif;
+   letter-spacing: 1px;
+}
+</style>
+<style> rect {fill:  #c8e8d3; stroke: black; }</style>
+<html lang="en">
+
+<script src="https://d3js.org/d3.v6.js"></script>
+<script src="https://rawgit.com/susielu/d3-annotation/master/d3-annotation.min.js"></script>
+<link rel="stylesheet" href="main.css">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Visualization: Scene 2</title>
+</head>
+
+<body>
+  <h1>How has Life Expectancy in India changed over the years?</h1>
+  <p>The bar plot below shows how the Life Expectancy in the author's country of birth, India, has changed over time. As we can see, life
+    expectancy has increased over the span of 16 years of data reported below. This is encouraging to see, and could be due to factors 
+    such as improved health-care infrastructure, better diets and healthier lives. In fact, according to this 
+    <a href="https://www.livemint.com/news/india/indias-life-expectancy-to-hit-82-by-2100-as-per-un-estimates-11665298822775.html">
+      article</a> India's life expectancy was 35.21 in 1950 and is expected to be 81.96 in the year 2100. 
+  </p>
+</body>
+
+<div id="range_chart"></div>
+
+<body style="font-family:Georgia">
+  <p>Continue exploring by clicking the 'Next' button!</p>
+
+<div>
+    <a href="index.html" class="home_button">Home</a>
+    <a href="scene1.html" class="back_button">Back</a>
+    <a href="scene3.html" class="next_button">Next</a>
+</div>
+
+</body>
+<script>
+
+var svg = d3.select("#range_chart")
+.append("svg")
+.attr("width", 650)
+.attr("height", 650);
+
+svg.append("text")
+.attr("transform", "translate(50,0)")
+.attr("x", 50)
+.attr("y", 50)
+.attr("font-size", "18px")
+.text("Change in Life Expectancy in India from 2000 - 2015")
+
+d3.csv("https://raw.githubusercontent.com/preetia3/preetia3.github.io/main/India_Data.csv").then( function(data) {
+  
+  var xScale = d3.scaleBand().range([0, 550]).padding(0.4),
+  yScale = d3.scaleLinear().range([550, 0]);
+  
+  var g = svg.append("g")
+  .attr("transform", "translate(" + 60 + "," + 60 + ")");
+  
+  xScale.domain(data.map(function(d) { return d.Year; }));
+  yScale.domain([60, d3.max(data, function(d) { return d.Life_expectancy; })]);
+  
+  g.append("g")
+  .attr("transform", "translate(0,550)")
+  .call(d3.axisBottom(xScale).tickFormat(function(d){return d;
+  }).ticks(8));
+  
+  g.append("g")
+  .call(d3.axisLeft(yScale).tickFormat(function(d){
+    return d;
+  }).ticks(10))
+  .append("text")
+  .attr("transform", "rotate(-90)")
+  .attr("y", 6)
+  .attr("x", -130)
+  .attr("dy", -45)
+  .attr("text-anchor", "end")
+  .attr("stroke", "black")
+  .text("Life Expectancy (in years)")
+  .style("font-size", "16px");
+  
+  g.selectAll(".bar")
+  .data(data)
+  .enter().append("rect")
+  .attr("class", "bar")
+  .attr("x", function(d) { return xScale(d.Year); })
+  .attr("y", function(d) { return yScale(d.Life_expectancy); })
+  .attr("width", xScale.bandwidth())
+  .attr("height", function(d) { return 550 - yScale(d.Life_expectancy); });
+  
+  const annotations = [
+    {
+      note: {
+        label: "Life Expectancy increased by 6.1 years, from 62.5 in 2010 to 68.6 years in 2015",
+        align: "middle",
+        wrap:300, 
+        padding: 10
+      },
+      type: d3.annotationCallout,
+      color:["#69b3a2"],
+      x: 580,
+      y: 60,
+      dy: 40,
+      dx: -260
+    },
+  ]
+
+  const makeAnnotations = d3.annotation()
+    .annotations(annotations)
+    svg.append("g")
+    .style("font-size", "12px")
+    .call(makeAnnotations)
+
+ });     
+</script>
+

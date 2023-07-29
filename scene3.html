@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<style>
+    html *
+{
+    color: #000;
+   font-family: 'Garamond', serif;
+   letter-spacing: 1px;
+}
+</style>
+<html lang="en">
+
+<script src="https://d3js.org/d3.v4.js"></script>
+<script src="https://rawgit.com/susielu/d3-annotation/master/d3-annotation.min.js"></script>
+<link rel="stylesheet" href="main.css">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Visualization: Scene 3</title>
+    <style>
+        html, body, #interative_viz {
+            height: 100%;
+        }
+    </style>
+</head>
+
+<body>
+    <div class='parent grid-parent'>
+        <div class='child' id="interative_viz"></div>
+        <div class='child' id="information">
+            <div class="head">
+                <h1 class="sub">How does the data compare across the Top 5 Most Populated Countries in the World?</h1>
+                <p >
+                <p>
+              </div>
+            <div class='parent grid-parent'>
+                <div class='child'>
+                    <div class='center-div'>
+                        <button class="button1" id="Life_Expectancy">Life Expectancy</button>
+                    </div>
+                </div>
+                <div class='child'>
+                    <div class='center-div'>
+                        <button class="button2" id="GDP">GDP per capita</button>
+                    </div>
+                </div>
+            </div>
+            <br>
+            <div class='parent grid-parent2'>
+                <div class='child' id="form">
+                        <form>
+                            <span id="rangeValue">2011</span>
+                            <input id="year" type="range" min="2011" max="2015" step="1"  value="2011">
+                        </form>
+
+                </div>
+                <div class='child' id="yaxis">
+                    <div id="label">Y Axis: Life Expectancy (in years)</div>
+                </div>
+            </div>
+            
+            <p></p>Now it's your chance to explore the data more! Click one of the buttons above, Life expectancy or GDP per capita, 
+            along with your year of interest, and see how the top 5 most populated countries in the world compare against each other 
+            between the years 2011 - 2015.<br><br>
+
+            All 5 countries have experienced an increase in life expectancy over the years. A sharp gap exists between the United States
+            and the other 4 countries regarding GDP per capita. 
+            </p>
+            <br><br><br>
+                    <p>Start over by clicking the 'Home' button!</p>
+                    <a href="index.html">
+                        <a href="index.html" class="home_button">Home</a>
+                        <a href="scene2.html" class="back_button">Back</a>
+        </div>
+      </div>
+    <script>
+
+var margin = {top: 10, right: 20, bottom: 60, left: 60},
+       width = document.getElementById('interative_viz').clientWidth,
+        height = 830 - margin.top - margin.bottom;
+
+var svg = d3.select('#interative_viz')
+    .append('svg')
+    .attr('width', width)
+    .attr('height', height)
+    .append('g')
+    .attr('transform', 'translate(' + margin.left + ',' + margin.top + ')');
+
+width = width - margin.left - margin.right;
+height = height - margin.top - margin.bottom;
+
+var x_scale = d3.scaleBand()
+    .rangeRound([0, width])
+    .padding(0.1);
+
+var y_scale = d3.scaleLinear()
+    .range([height, 0]);
+
+svg.append('g')
+    .attr('class', 'x axis')
+    .attr('transform', 'translate(0,' + height + ')')
+    svg.append("text")             
+            .attr("transform",
+                "translate(" + (width/2) + " ," + 
+                                (height + margin.top + 40) + ")")
+            .style("text-anchor", "middle")
+            .text("Countries");
+
+svg.append('g')
+    .attr('class', 'y axis');
+
+var y_axis = d3.axisLeft(y_scale);
+var x_axis = d3.axisBottom(x_scale);
+
+var mode = "life_expectancy";
+var color = d3.scaleOrdinal()
+    .domain(['China', 'India', 'Indonesia', 'Pakistan', 'United States'])
+    .range(["#fbb4ae","#b3cde3","#ccebc5","#decbe4","#fed9a6"]);
+
+
+function update(year) {
+    if (mode == "life_expectancy"){
+        d3.csv("https://raw.githubusercontent.com/preetia3/preetia3.github.io/main/"+year+ 'Top5Data.csv', function(csv_data) {
+
+var t = d3.transition()
+    .duration(1000);
+
+var countries = csv_data.map(function(d) {
+    return d.Country;
+});
+x_scale.domain(countries);
+
+var max_value = d3.max(csv_data, function(d) {
+    return d.Life_expectancy;
+});
+y_scale.domain([60, 80]);
+
+var bars = svg.selectAll('.bar')
+    .data(csv_data);
+
+bars
+    .exit()
+    .remove();
+
+var bars2 = bars
+    .enter()
+    .append('rect')
+    .attr('class', 'bar')
+    .attr('height', 0)
+    .attr('y', height)
+    .attr('width', x_scale.bandwidth());
+
+bars2.merge(bars)
+    .transition(t)
+    .attr('x', function(d) {
+        return x_scale(d.Country);
+    })
+    .attr('y', function(d) {
+        return y_scale(d.Life_expectancy);
+    })
+    .attr('height', function(d) {
+        return height - y_scale(d.Life_expectancy);
+    })
+    .attr('fill', function(d) {
+        return color(d.Country);
+    });
+
+svg.select('.x.axis')
+    .transition(t)
+    .call(x_axis);
+
+svg.select('.y.axis')
+    .transition(t)
+    .call(y_axis);
+
+make_life_expectancy_annotations()
+
+});
+    } else {
+
+var y = svg.select(".y.axis")
+
+d3.csv("https://raw.githubusercontent.com/preetia3/preetia3.github.io/main/"+year+ "Top5Data.csv", function(csv_data) {
+
+var t = d3.transition()
+    .duration(1000);
+
+var countries = csv_data.map(function(d) {
+    return d.Country;
+});
+x_scale.domain(countries);
+
+var max_value = d3.max(csv_data, function(d) {
+    return d.GDP_per_capita;
+});
+y_scale.domain([0, 57000]);
+
+var bars = svg.selectAll('.bar')
+    .data(csv_data);
+
+bars
+    .exit()
+    .remove();
+
+var bars2 = bars
+    .enter()
+    .append('rect')
+    .attr('class', 'bar')
+    .attr('height', 0)
+    .attr('y', height)
+    .attr('width', x_scale.bandwidth());
+
+bars2.merge(bars)
+    .transition(t)
+    .attr('x', function(d) {
+        return x_scale(d.Country);
+    })
+    .attr('y', function(d) {
+        return y_scale(d.GDP_per_capita);
+    })
+    .attr('height', function(d) {
+        return height - y_scale(d.GDP_per_capita);
+    })
+    .attr('fill', function(d) {
+        return color(d.Country);
+    });
+
+svg.select('.x.axis')
+    .transition(t)
+    .call(x_axis);
+
+svg.select('.y.axis')
+    .transition(t)
+    .call(y_axis);
+
+make_GDP_annotations()
+});
+}
+}
+
+function make_life_expectancy_annotations() {
+const type = d3.annotationCallout
+
+d3.select("#annotation").remove()
+const annotations = [{
+    type: d3.annotationCallout,
+          note: {
+            label: "The United States has the highest life expectancy throughout the 5 years",
+            title: "",
+            wrap: 250
+          },
+          x: 130,
+          y: 100,
+          dy: -25,
+          dx: 50
+        }]
+
+        const makeAnnotations = d3.annotation()
+          .type(d3.annotationCallout)
+          .annotations(annotations)
+
+        d3.select("svg")
+          .append("g")
+          .attr("id","annotation")
+          .attr("class", "annotation-group")
+          .call(makeAnnotations)
+}
+
+function make_GDP_annotations() {
+const type = d3.annotationCallout
+d3.select("#annotation").remove()
+
+const annotations = [{
+          type: d3.annotationCallout,
+          note: {
+            label: "The United States has the highest GDP throughout the 5 years",
+            title: "",
+            wrap: 250
+          },
+          x: 110,
+          y: 150,
+          dy: -75,
+          dx: 50
+        }]
+
+        const makeAnnotations = d3.annotation()
+          .type(d3.annotationLabel)
+          .annotations(annotations)
+
+        d3.select("svg")
+          .append("g")
+          .attr("id","annotation")
+          .attr("class", "annotation-group")
+          .call(makeAnnotations)
+}
+
+document.getElementById("year").oninput = function() {
+    var val = document.getElementById("year").value
+    document.getElementById('rangeValue').innerHTML = val;
+    update(val);
+};
+        document.getElementById('Life_Expectancy').onclick = function() {
+        if (mode != "life_expectancy"){
+            console.log("Changing modes")
+            mode = "life_expectancy";
+            var val = document.getElementById("year").value
+            document.getElementById("label").innerHTML = "Y Axis: Life Expectancy (in years)";
+            update(val);
+        }
+    };
+    document.getElementById('GDP').onclick = function() {
+        if (mode != "GDP"){
+            console.log("Changing modes")
+            mode = "GDP";
+            var val = document.getElementById("year").value
+            document.getElementById("label").innerHTML = "Y Axis: GDP per capita (in USD)";
+            update(val);
+        }
+    };
+update('2013');
+    </script>
+</body>
